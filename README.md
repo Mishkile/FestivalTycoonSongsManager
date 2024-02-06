@@ -1,5 +1,5 @@
 # FestivalTycoonSongsManager
-Festival Tycoon Tool for adding customs songs using Electron JS and Express JS
+Festival Tycoon Tool for adding custom songs using Electron JS and Express JS
 
 
 Use NODE js to run the server and the client seperatly. 
