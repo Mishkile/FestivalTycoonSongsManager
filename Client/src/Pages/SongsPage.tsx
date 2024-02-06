@@ -27,7 +27,7 @@ import CustomModal from '../Components/CustomModal'
 const SongsPage = () => {
     // Reminder to self: seperate the table into a different component
 
-    const store = useSelector((state: any) => state)
+  
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [rows, setRows] = useState([])
@@ -44,9 +44,8 @@ const SongsPage = () => {
 
 
     function createData(bandName: string, songName: string, songId: string, songLength: string) {
-        if (songLength.includes('undefined')) {
-            songLength = songLength.replace('undefined', 'NA')
-        }
+        if (songLength.includes('undefined')) songLength = songLength.replace('undefined', 'NA')
+        
         return { bandName, songName, songId, songLength };
     }
 
@@ -55,7 +54,6 @@ const SongsPage = () => {
     const fetchData = async () => {
         const documentPath: any = localStorage.getItem('documentsPath')
         const songs = await getAllSongs(documentPath)
-        console.log(songs)
         const data = songs.map((song: any) => createData(song.songs[0].bandName, song.songs[0].songName, song.songId, `${checkLength(song.songs[0]?.songLength)}/${checkLength(song.songs[1]?.songLength)}/${checkLength(song.songs[2]?.songLength)}`))
         setRows(data)
         dispatch({ type: 'SET_SONGS', payload: songs })
@@ -64,7 +62,6 @@ const SongsPage = () => {
 
     const handleRemove = async (songId: any) => {
         const documentPath: any = localStorage.getItem('documentsPath')
-        console.log(documentPath)
         const status = await deleteSong(songId, documentPath)
         alert(status)
         fetchData()
@@ -99,7 +96,7 @@ const SongsPage = () => {
                         <TableBody>
                             {
                                 rows.map((row: any) => {
-                                    console.log(row)
+                                    
                                     return <TableRow
                                         key={row.songId}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

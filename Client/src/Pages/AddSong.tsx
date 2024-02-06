@@ -1,12 +1,18 @@
 import { useNavigate } from "react-router-dom"
-import { MuiFileInput } from 'mui-file-input'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { addSong } from "../Services/songsService"
+import "../../public/Draggingstyle.css"
+
+
+
 const AddSong = () => {
+
+    const [isDragging, setIsDragging] = useState("")
+
+
     const navigate = useNavigate()
     const [body, setBody] = useState({})
     const [genres, setGenres] = useState([
-
         { id: "00", name: "Metal" },
         { id: "01", name: "Rock" },
         { id: "02", name: "Folk" },
@@ -32,16 +38,21 @@ const AddSong = () => {
         }
 
         await addSong(body)
-        
+
         navigate("/")
 
     }
 
     return (
-        <div>
-            <form style={{ border: "2px solid black" }} onSubmit={e => handleSubmit(e)}>
-                <h2>Drop Song</h2>
-                <input type="file" style={{ border: "2px solid red" }} onChange={(e: any) => {
+        <div style={{ width: "100%", }} >
+
+
+            <form style={{ border: "2px solid black", display: "flex", flexDirection: "column", alignItems: "center" }} onSubmit={e => handleSubmit(e)}>
+                <h2 >Drop Song</h2>
+                <input className={isDragging} onMouseLeave={() => setIsDragging("")} onDragLeave={() => setIsDragging("")} onDragOver={() => {
+                    
+                   return isDragging === "" ? setIsDragging("dragging-style") : null
+                }} type="file" style={{ border: "2px solid darkred", margin: " auto", height: "150px" }} onChange={(e: any) => {
                     console.log(e.target.files[0].path)
                     setBody({ ...body, documentPath: e.target.files[0].path })
 
@@ -81,6 +92,7 @@ const AddSong = () => {
                 <button type="submit">Submit</button>
 
             </form>
+
         </div>
     )
 }
