@@ -8,6 +8,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 import { useEffect, useState } from 'react'
 import { getAllSongs } from '../Services/songsService'
@@ -17,20 +19,26 @@ import { useNavigate } from 'react-router-dom';
 
 import { deleteSong } from '../Services/songsService';
 
+import "../../public/Iconstyle.css"
+
+import CustomModal from '../Components/CustomModal'
+
+
 const SongsPage = () => {
+    // Reminder to self: seperate the table into a different component
+
     const store = useSelector((state: any) => state)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [rows, setRows] = useState([])
     // // u_[genre ID]_[song ID]_[length]-[text] - for future reference
+    const [isDeleteHover, setIsDeleteHover] = useState(false)
 
+    const [modalOpen, setModalOpen] = useState(false)
 
     const checkLength = (length: any) => {
-        if (!length) {
-            return "NA"
-        } else {
-            return length
-        }
+
+        return !length ? length = 'NA' : length
     }
 
 
@@ -98,6 +106,8 @@ const SongsPage = () => {
                                         hover={true}
 
                                     >
+
+                                        {modalOpen ? <CustomModal confirmRemove={() => handleRemove(row.songId)} closeWindow={() => setModalOpen(false)} /> : null}
                                         <TableCell component="th" scope="row">
                                             {row.songId}
                                         </TableCell>
@@ -106,7 +116,11 @@ const SongsPage = () => {
                                         <TableCell align="right">{row.songLength}</TableCell>
                                         {row.songLength === '30sec/60sec/90sec' ? <TableCell align="right">Maximum Lengths</TableCell> : <TableCell align="right">  <button onClick={() => navigate(`/song/${row.songId}`)}>Add Length</button></TableCell>}
 
-                                        <TableCell align="right"><button onClick={() => handleRemove(row.songId)} >Remove</button></TableCell>
+                                        <TableCell align="right">
+                                            {isDeleteHover ? <DeleteForeverIcon className='delete-forever-icon' fontSize={'large'} onMouseLeave={() => setIsDeleteHover(false)} onClick={() => setModalOpen((prev) => true)} /> : <DeleteIcon fontSize={'large'} onMouseOver={() => setIsDeleteHover(true)} />
+
+                                            }
+                                        </TableCell>
 
 
 
@@ -116,6 +130,8 @@ const SongsPage = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
+
+
 
 
             </div>
