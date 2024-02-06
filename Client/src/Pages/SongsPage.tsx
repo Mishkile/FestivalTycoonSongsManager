@@ -72,7 +72,7 @@ const SongsPage = () => {
         public text: string */}
             <div >
                 <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 1800, minHeight: 800 }} aria-label="simple table">
+                    <Table sx={{ minWidth: 1600, minHeight: 600 }} aria-label="simple table">
                         <TableHead>
                             <TableRow>
                                 <TableCell>ID</TableCell>
@@ -91,6 +91,7 @@ const SongsPage = () => {
                         <TableBody>
                             {
                                 rows.map((row: any) => {
+                                    console.log(row)
                                     return <TableRow
                                         key={row.songId}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

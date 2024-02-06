@@ -132,11 +132,16 @@ async function renameAndAddSongEntry(documentPath, genreId, length, bandName, so
         songName: songName // Remove songId and songLength from here
     };
 
+    let currentSongData = await fs2.readFile(songDataPath, 'utf8');
+    if (currentSongData && !currentSongData.endsWith('\n')) {
+        currentSongData += '\n'; // Ensure there's a newline at the end of the file content
+    }
+    
     // Convert the new entry to a string that looks like a JSON object line
     const newEntryString = `${songId}: ${JSON.stringify(newEntry[songId])}\n`;
-
-    // Append the new entry string to songData.txt
-    await fs2.appendFile(songDataPath, newEntryString);
+    
+    // Write the updated content back to songData.txt
+    await fs2.writeFile(songDataPath, currentSongData + newEntryString); // Use writeFile with the updated content
 
     console.log(`File renamed to ${newFileName} and entry added to songData.txt`);
     return `File renamed to ${newFileName} and entry added to songData.txt`
