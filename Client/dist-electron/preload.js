@@ -1,5 +1,1 @@
-"use strict";
-const electron = require("electron");
-electron.contextBridge.exposeInMainWorld("electronAPI", {
-  openDirectoryDialog: async () => electron.ipcRenderer.invoke("open-directory-dialog")
-});
+"use strict";const e=require("electron");e.contextBridge.exposeInMainWorld("electronAPI",{openDirectoryDialog:async()=>e.ipcRenderer.invoke("open-directory-dialog")});

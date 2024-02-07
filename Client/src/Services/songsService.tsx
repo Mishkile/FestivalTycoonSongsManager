@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const getAllSongs = async (documentPath: string) => {
     const { data } = await axios.post("http://127.0.0.1:8000/api/songsWithIds", { documentPath })
+    console.log(data)
     return data
 
 }

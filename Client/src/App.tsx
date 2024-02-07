@@ -7,6 +7,7 @@ import SongsPage from "./Pages/SongsPage";
 import Drawer from "./Components/Drawer";
 import AddSong from "./Pages/AddSong";
 import AddLengths from "./Pages/AddLengths";
+import axios from "axios"
 const App = () => {
   const docPathRedux = useSelector((state: any) => state.documentsPath);
   const dispatch = useDispatch();
@@ -17,9 +18,14 @@ const App = () => {
     // will clear the folder path from local storage 
     // localStorage.clear()
    
+   
+
     const docPathLocalStorage = localStorage.getItem('documentsPath');
+   
     if (!docPathLocalStorage) {
+      console.log("here")
       navigate('/first');
+    
     } else if (docPathRedux === '') {
       dispatch({ type: 'SET_DOCUMENTS_PATH', payload: docPathLocalStorage });
       navigate("/")
@@ -36,7 +42,7 @@ const App = () => {
 
 
   return (
-    <div style={{ width: "100vw", height: "100vh", border: "1px solid green" ,display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column"}}>
+    <div style={{ width: "100vw", height: "100vh", border: "1px solid green", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
       <Drawer />
 
       <Routes>
@@ -44,7 +50,7 @@ const App = () => {
         <Route path="/add" element={<AddSong />} />
         <Route path="/" element={<SongsPage />} />
         <Route path="/song/:id" element={<AddLengths />} />
-        
+
 
       </Routes>
       {/* <GetUserModsFolder /> */}

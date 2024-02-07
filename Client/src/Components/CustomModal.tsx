@@ -2,8 +2,14 @@ import React from 'react'
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
-
-export default function CustomModal({ confirmRemove, closeWindow, header = "Some header", content = "Some Content" }) {
+type CustomModalProps = {
+    confirmRemove: () => void;
+    closeWindow: () => void;
+    header?: string;
+    content?: string;
+  };
+export default function CustomModal({ confirmRemove, closeWindow, header = "Some header", content = "Some Content" }: CustomModalProps) {
+   
     const [open, setOpen] = React.useState(true);
     const style = {
         position: 'absolute' as 'absolute',

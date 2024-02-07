@@ -71,13 +71,14 @@ const SongsPage = () => {
     }, [])
     return (
         <div >
+            <h1>Test</h1>
             {/* public id: number,
         public genre: number,
         public length: number,
         public text: string */}
             <div >
                 <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 1600, minHeight: 600 }} aria-label="simple table">
+                    <Table sx={{ minWidth: 1600, minHeight: 200 }} aria-label="simple table">
                         <TableHead>
                             <TableRow>
                                 <TableCell>ID</TableCell>
@@ -98,6 +99,7 @@ const SongsPage = () => {
                                 rows.map((row: any) => {
                                     
                                     return <TableRow
+                                  
                                         key={row.songId}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         hover={true}
@@ -105,12 +107,12 @@ const SongsPage = () => {
                                     >
 
                                         {modalOpen ? <CustomModal confirmRemove={() => handleRemove(row.songId)} closeWindow={() => setModalOpen(false)} /> : null}
-                                        <TableCell component="th" scope="row">
+                                        <TableCell   style={{fontSize: "large"}} component="th" scope="row">
                                             {row.songId}
                                         </TableCell>
-                                        <TableCell align="right">{row.bandName}</TableCell>
-                                        <TableCell align="right">{row.songName}</TableCell>
-                                        <TableCell align="right">{row.songLength}</TableCell>
+                                        <TableCell   style={{fontSize: "large"}} align="right" >{row.bandName}</TableCell>
+                                        <TableCell   style={{fontSize: "large"}} align="right">{row.songName}</TableCell>
+                                        <TableCell  style={{fontSize: "large"}} align="right">{row.songLength}</TableCell>
                                         {row.songLength === '30sec/60sec/90sec' ? <TableCell align="right">Maximum Lengths</TableCell> : <TableCell align="right">  <button onClick={() => navigate(`/song/${row.songId}`)}>Add Length</button></TableCell>}
 
                                         <TableCell align="right">
