@@ -18,7 +18,10 @@ const GetUserModsFolder = () => {
   const selectFolder = async () => {
     try {
       let path = await window.electronAPI.openDirectoryDialog();
-      console.log(path); // You can remove this line after confirming it works
+      if (!path) {
+        // alert('No folder selected');
+        return;
+      };
       path = path.replace(/\\/g, '\\\\');
 
 
@@ -39,8 +42,8 @@ const GetUserModsFolder = () => {
   return (
     <div>
       <h1>Select a Folder</h1>
-      <button onClick={selectFolder}>Open Folder Dialog</button>
-      {folderPath && <p>Selected Folder: {store?.documentsPath} from redux</p>}
+      <button onClick={selectFolder}>Open Folder</button>
+      {folderPath && <p>Selected Folder: {store?.documentsPath}</p>}
     </div>
   );
 };

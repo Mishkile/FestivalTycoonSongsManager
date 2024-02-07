@@ -44,32 +44,32 @@ const AddSong = () => {
     }
 
     return (
-        <div style={{ width: "100%", }} >
+        <div style={{ width: "100%" }} >
 
 
-            <form style={{ border: "2px solid black", display: "flex", flexDirection: "column", alignItems: "center" }} onSubmit={e => handleSubmit(e)}>
+            <form style={{  border: "2px solid black", display: "flex", flexDirection: "column", alignItems: "center" }} onSubmit={e => handleSubmit(e)}>
                 <h2 >Drop Song</h2>
                 <input className={isDragging} onMouseLeave={() => setIsDragging("")} onDragLeave={() => setIsDragging("")} onDragOver={() => {
                     
                    return isDragging === "" ? setIsDragging("dragging-style") : null
-                }} type="file" style={{ border: "2px solid darkred", margin: " auto", height: "150px" }} onChange={(e: any) => {
+                }} type="file" style={{ border: "2px solid darkred", height: "150px" }} onChange={(e: any) => {
                     console.log(e.target.files[0].path)
                     setBody({ ...body, documentPath: e.target.files[0].path })
 
                 }} /> <br />
 
-                <h2>Band Name</h2>
-                <input type="text" onChange={(e: any) => {
+            
+                <input placeholder="Band Name" style={{textAlign:"center", width: "20%", height: "40px", fontSize: "large"}} type="text" onChange={(e: any) => {
                     setBody({ ...body, bandName: e.target.value })
                 }} /> <br />
 
-                <h2>Song Name</h2>
-                <input type="text" onChange={(e: any) => {
+             
+                <input placeholder="Song Name" style={{textAlign:"center",width: "20%", height: "40px", fontSize: "large"}} type="text" onChange={(e: any) => {
                     setBody({ ...body, songName: e.target.value })
                 }} /> <br />
 
-                <h2>Choose Genre</h2>
-                <select name="genre" id="genre" onChange={(e: any) => {
+               
+                <select style={{textAlign: "center", width: "20%", height: "40px", fontSize: "large"}} name="genre" id="genre" onChange={(e: any) => {
                     setBody({ ...body, genreId: e.target.value })
                 }}>
                     <option disabled selected>Choose Genre</option>
@@ -79,8 +79,8 @@ const AddSong = () => {
                     })}
                 </select> <br />
 
-                <h2>Choose Length</h2>
-                <select name="length" id="length" onChange={(e: any) => {
+              
+                <select style={{textAlign: "center", width: "20%", height: "40px", fontSize: "large"}} name="length" id="length" onChange={(e: any) => {
                     setBody({ ...body, length: e.target.value })
                 }}>
                     <option disabled selected>Choose Lengths</option>
