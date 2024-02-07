@@ -27,12 +27,13 @@ import CustomModal from '../Components/CustomModal'
 const SongsPage = () => {
     // Reminder to self: seperate the table into a different component
 
-  
+
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [rows, setRows] = useState([])
     // // u_[genre ID]_[song ID]_[length]-[text] - for future reference
     const [isDeleteHover, setIsDeleteHover] = useState(false)
+    const [songHover, setSongHover] = useState("")
 
     const [modalOpen, setModalOpen] = useState(false)
 
@@ -45,7 +46,7 @@ const SongsPage = () => {
 
     function createData(bandName: string, songName: string, songId: string, songLength: string) {
         if (songLength.includes('undefined')) songLength = songLength.replace('undefined', 'NA')
-        
+
         return { bandName, songName, songId, songLength };
     }
 
@@ -97,9 +98,9 @@ const SongsPage = () => {
                         <TableBody>
                             {
                                 rows.map((row: any) => {
-                                    
+
                                     return <TableRow
-                                  
+
                                         key={row.songId}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         hover={true}
@@ -107,16 +108,19 @@ const SongsPage = () => {
                                     >
 
                                         {modalOpen ? <CustomModal confirmRemove={() => handleRemove(row.songId)} closeWindow={() => setModalOpen(false)} /> : null}
-                                        <TableCell   style={{fontSize: "large"}} component="th" scope="row">
+                                        <TableCell style={{ fontSize: "large" }} component="th" scope="row">
                                             {row.songId}
                                         </TableCell>
-                                        <TableCell   style={{fontSize: "large"}} align="right" >{row.bandName}</TableCell>
-                                        <TableCell   style={{fontSize: "large"}} align="right">{row.songName}</TableCell>
-                                        <TableCell  style={{fontSize: "large"}} align="right">{row.songLength}</TableCell>
+                                        <TableCell style={{ fontSize: "large" }} align="right" >{row.bandName}</TableCell>
+                                        <TableCell style={{ fontSize: "large" }} align="right">{row.songName}</TableCell>
+                                        <TableCell style={{ fontSize: "large" }} align="right">{row.songLength}</TableCell>
                                         {row.songLength === '30sec/60sec/90sec' ? <TableCell align="right">Maximum Lengths</TableCell> : <TableCell align="right">  <button onClick={() => navigate(`/song/${row.songId}`)}>Add Length</button></TableCell>}
 
                                         <TableCell align="right">
-                                            {isDeleteHover ? <DeleteForeverIcon className='delete-forever-icon' fontSize={'large'} onMouseLeave={() => setIsDeleteHover(false)} onClick={() => setModalOpen((prev) => true)} /> : <DeleteIcon fontSize={'large'} onMouseOver={() => setIsDeleteHover(true)} />
+                                            {isDeleteHover && songHover===row.songId  ? <DeleteForeverIcon className='delete-forever-icon' fontSize={'large'} onMouseLeave={() => setIsDeleteHover(false)} onClick={() => setModalOpen((prev) => true)} /> : <DeleteIcon fontSize={'large'} onMouseOver={() => {
+                                                setSongHover(row.songId)
+                                                setIsDeleteHover(true)
+                                            }} />
 
                                             }
                                         </TableCell>
