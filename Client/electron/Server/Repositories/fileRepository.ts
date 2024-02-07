@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import fse from 'fs-extra';
 import fs2 from 'fs/promises';
+import os from 'os';
 
 
 const getFileData = (documentPath: string) => {
@@ -150,45 +151,39 @@ async function renameAndAddSongEntry(documentPath: string, genreId: string, leng
 
 
 
-async function addSongLength(existingSongId: string, documentPath: string, songLength: any, genreId: string) {
+async function addSongLength(existingSongId:any, documentPath:any, songLength:any, genreId:any) {
     const directoryPath = path.dirname(documentPath);
     const songDataPath = path.join(directoryPath, 'songData.txt');
-    const fileExtension = path.extname(documentPath); // Assuming .wav, but dynamically getting it
-    const songDataContent: any = await getFileData(directoryPath)
-    const songExists = songDataContent.some((entry: any) => entry.songId.includes(`u_${genreId}_${existingSongId}`));
-    console.log(songExists)
+    const fileExtension = path.extname(documentPath);
+    const songDataContent : any = await getFileData(directoryPath);
+    
+    const songExists = songDataContent.some((entry:any) => entry.songId.includes(`u_${genreId}_${existingSongId}`));
     if (!songExists) {
         throw new Error(`Song ID u_${genreId}_${existingSongId} does not exist.`);
     }
-    const songData = songDataContent.filter((entry: any) => entry.songId.includes(`u_${genreId}_${existingSongId}`));
-    console.log(songData)
-
-    const lengthExists = songData.some((entry: any) => entry.songId === `u_${genreId}_${existingSongId}_${songLength}`);
+    
+    const lengthExists = songDataContent.some((entry:any) => entry.songId === `u_${genreId}_${existingSongId}_${songLength}`);
     if (lengthExists) {
         throw new Error(`Length ${songLength} for song ID u_${genreId}_${existingSongId} already exists.`);
     }
 
-    // Rename the file
     const newFileName = `u_${genreId}_${existingSongId}_${songLength}${fileExtension}`;
-    console.log(newFileName)
     const newFilePath = path.join(directoryPath, newFileName);
     await fse.move(documentPath, newFilePath);
 
-    // Get the details from the existing song
-    const existingEntry = songData.find((entry: any) => entry.songId.includes(`u_${genreId}_${existingSongId}`))
-    const newEntry: any = {};
-    newEntry[`u_${genreId}_${existingSongId}_${songLength}`] = {
+    const existingEntry = songDataContent.find((entry:any) => entry.songId.includes(`u_${genreId}_${existingSongId}`));
+    const newEntry = {
         bandName: existingEntry.bandName,
         songName: existingEntry.songName
     };
 
-    // Add new entry to songData.txt
-    const newEntryString = `${`u_${genreId}_${existingSongId}_${songLength}`}: ${JSON.stringify(newEntry[`u_${genreId}_${existingSongId}_${songLength}`])}\n`;
-    await fs2.appendFile(songDataPath, newEntryString);
+    const newEntryString = `u_${genreId}_${existingSongId}_${songLength}: ${JSON.stringify(newEntry)}${os.EOL}`;
+    await fs2.appendFile(songDataPath, newEntryString, 'utf8');
 
     console.log(`File renamed to ${newFileName} and entry added to songData.txt`);
     return `File renamed to ${newFileName} and entry added to songData.txt`;
 }
+
 
 
 const removeSongFromFolderAndFile = async (songId: string, documentPath: string) => {
