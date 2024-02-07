@@ -2,11 +2,13 @@
 Festival Tycoon Tool for adding custom songs using Electron JS and Express JS
 
 
-Use NODE js to run the server and the client seperatly. 
-the client should be sending the correct rquests to the server.
+In order to build and run: 
 
-in order to add songs make sure: 
-1. the song is in WAV format.
-2. the song is located at the "Bands" folder. for me its: Z:\PC\Festival Tycoon\UserFiles\Bands
+Enter the Cilent Folder.
 
-the app is on very eraly stages with barely any error handling so expect a buggy experience.
+-npm install
+-npm run build
+C:\Users\YOUR USER\...\FestivalTycoonSongsManager\Client\release\0.0.0\win-unpacked
+the file name is YourAppName.
+
+you can also run the client and the server seperatly on development using the seperated Server folder.
