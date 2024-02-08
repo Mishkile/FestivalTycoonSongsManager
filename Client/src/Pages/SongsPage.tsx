@@ -72,7 +72,7 @@ const SongsPage = () => {
     }, [])
     return (
         <div >
-         
+
             {/* public id: number,
         public genre: number,
         public length: number,
@@ -114,10 +114,15 @@ const SongsPage = () => {
                                         <TableCell style={{ fontSize: "large" }} align="right" >{row.bandName}</TableCell>
                                         <TableCell style={{ fontSize: "large" }} align="right">{row.songName}</TableCell>
                                         <TableCell style={{ fontSize: "large" }} align="right">{row.songLength}</TableCell>
-                                        {row.songLength === '30sec/60sec/90sec' ? <TableCell align="right">Maximum Lengths</TableCell> : <TableCell align="right">  <button onClick={() => navigate(`/song/${row.songId}`)}>Add Length</button></TableCell>}
-
+                                        {row.songLength.includes('/') && !row.songLength.includes("NA") ? (
+                                            <TableCell align="right">Maximum Lengths</TableCell>
+                                        ) : (
+                                            <TableCell align="right">
+                                                <button onClick={() => navigate(`/song/${row.songId}`)}>Add Length</button>
+                                            </TableCell>
+                                        )}
                                         <TableCell align="right">
-                                            {isDeleteHover && songHover===row.songId  ? <DeleteForeverIcon className='delete-forever-icon' fontSize={'large'} onMouseLeave={() => setIsDeleteHover(false)} onClick={() => setModalOpen((prev) => true)} /> : <DeleteIcon fontSize={'large'} onMouseOver={() => {
+                                            {isDeleteHover && songHover === row.songId ? <DeleteForeverIcon className='delete-forever-icon' fontSize={'large'} onMouseLeave={() => setIsDeleteHover(false)} onClick={() => setModalOpen((prev) => true)} /> : <DeleteIcon fontSize={'large'} onMouseOver={() => {
                                                 setSongHover(row.songId)
                                                 setIsDeleteHover(true)
                                             }} />

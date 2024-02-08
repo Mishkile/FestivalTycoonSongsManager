@@ -1,5 +1,5 @@
 import { app, BrowserWindow, ipcMain, dialog } from 'electron';
-import installExtension, { REDUX_DEVTOOLS,REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
+import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 
 import path from 'path';
 import express from 'express';
@@ -20,16 +20,16 @@ server.use(cors()); // Enable CORS for all routes
 
 
 server.use(express.json());
- 
+
 
 server.post("/api/file", async (req, res) => {
   const documentPath = req.body.documentPath;
   try {
 
-      const data = await getFileData(documentPath);
-      res.status(200).send(data);
+    const data = await getFileData(documentPath);
+    res.status(200).send(data);
   } catch (error) {
-      res.status(500).send(error);
+    res.status(500).send(error);
   }
 })
 
@@ -37,10 +37,10 @@ server.post("/api/songsWithIds", async (req, res) => {
   const documentPath = req.body.documentPath;
   try {
 
-      const data = await getSongsWithId(documentPath);
-      return res.status(200).send(data);
+    const data = await getSongsWithId(documentPath);
+    return res.status(200).send(data);
   } catch (error) {
-      return res.status(500).send(error);
+    return res.status(500).send(error);
   }
 })
 
@@ -53,10 +53,10 @@ server.post("/api/add", async (req, res) => {
 
   try {
 
-      const data = await renameAndAddSongEntry(documentPath, genreId, length, bandName, songName);
-      return res.status(200).send(data);
+    const data = await renameAndAddSongEntry(documentPath, genreId, length, bandName, songName);
+    return res.status(200).send(data);
   } catch (error: any) {
-      return res.status(500).send(error.message);
+    return res.status(500).send(error.message);
   }
 })
 
@@ -69,10 +69,10 @@ server.post("/api/addlength", async (req, res) => {
 
   try {
 
-      const data = await addSongLength(existingSongId, documentPath, songLength, genreId);
-      return res.status(200).send(data);
+    const data = await addSongLength(existingSongId, documentPath, songLength, genreId);
+    return res.status(200).send(data);
   } catch (error: any) {
-      return res.status(500).send(error.message);
+    return res.status(500).send(error.message);
   }
 })
 
@@ -82,10 +82,10 @@ server.delete("/api/:songId", async (req, res) => {
   console.log(req.body)
   console.log(songId, documentPath)
   try {
-      const data = await removeSongFromFolderAndFile(songId, documentPath);
-      return res.status(200).send(data);
+    const data = await removeSongFromFolderAndFile(songId, documentPath);
+    return res.status(200).send(data);
   } catch (error: any) {
-      return res.status(500).send(error.message);
+    return res.status(500).send(error.message);
   }
 })
 
@@ -144,14 +144,13 @@ ipcMain.handle('open-directory-dialog', async () => {
 
 
 
-
 app.whenReady().then(() => {
-    installExtension(REDUX_DEVTOOLS)
-        .then((name) => console.log(`Added Extension:  ${name}`))
-        .catch((err) => console.log('An error occurred: ', err));
-        installExtension(REACT_DEVELOPER_TOOLS)
-        .then((name) => console.log(`Added Extension:  ${name}`))
-        .catch((err) => console.log('An error occurred: ', err));
+  installExtension(REDUX_DEVTOOLS)
+    .then((name) => console.log(`Added Extension:  ${name}`))
+    .catch((err) => console.log('An error occurred: ', err));
+  installExtension(REACT_DEVELOPER_TOOLS)
+    .then((name) => console.log(`Added Extension:  ${name}`))
+    .catch((err) => console.log('An error occurred: ', err));
 });
 
 app.on('window-all-closed', () => {
