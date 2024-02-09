@@ -1,21 +1,10 @@
 
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 
-import DeleteIcon from '@mui/icons-material/Delete';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 import { useEffect, useState } from 'react'
 import { getAllSongs } from '../Services/songsService'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
-import { useNavigate } from 'react-router-dom';
 
 import { deleteSong } from '../Services/songsService';
 
@@ -23,9 +12,11 @@ import "../../public/Iconstyle.css"
 
 import CustomModal from '../Components/CustomModal'
 import SongsTable from '../Components/SongsTable';
+import CustomSelect from '../Components/CustomSelect';
 
 
 const SongsPage = () => {
+
 
 
 
@@ -66,6 +57,23 @@ const SongsPage = () => {
     }
 
 
+    const sortRows = (category: string) => {
+        const rowsCopy = [...rows]
+
+        switch (category) {
+            case 'Band':
+                const sortedArray = rowsCopy.sort((a: any, b: any) => a.bandName.localeCompare(b.bandName))
+                setRows(sortedArray)
+                break;
+
+            case 'ID':
+                const sortedArray2 = rowsCopy.sort((a: any, b: any) => a.songId.localeCompare(b.songId))
+                setRows(sortedArray2)
+                break;
+        }
+
+
+    }
 
 
     useEffect(() => {
@@ -74,8 +82,9 @@ const SongsPage = () => {
     return (
         <div >
 
-            
+
             <div >
+                <CustomSelect returnCategory={(data: string) => sortRows(data)} /> <br />
                 <SongsTable handleRemove={handleRemove} rows={rows} />
 
 
