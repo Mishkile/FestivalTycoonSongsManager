@@ -45,32 +45,28 @@ server.post("/api/songsWithIds", async (req, res) => {
 })
 
 server.post("/api/add", async (req, res) => {
-  const documentPath = req.body.documentPath;
-  const genreId = req.body.genreId;
-  const length = req.body.length;
-  const bandName = req.body.bandName;
-  const songName = req.body.songName;
+  const documentsPath = req.body.documentPath;
+  const { genreId, length, bandName, songName, songFilePath } = req.body;
+  console.log(documentsPath)
 
   try {
 
-    const data = await renameAndAddSongEntry(documentPath, genreId, length, bandName, songName);
+    const data = await renameAndAddSongEntry(documentsPath, genreId, length, bandName, songName, songFilePath ? songFilePath : null);
     return res.status(200).send(data);
   } catch (error: any) {
+    console.log(error.message)
     return res.status(500).send(error.message);
   }
 })
 
 server.post("/api/addlength", async (req, res) => {
-  const documentPath = req.body.documentPath;
-  const existingSongId = req.body.existingSongId;
-  const songLength = req.body.songLength;
-  const genreId = req.body.genreId;
+  const { documentPath, existingSongId, songLength, genreId } = req.body;
   console.log(documentPath, existingSongId, songLength)
-
   try {
 
     const data = await addSongLength(existingSongId, documentPath, songLength, genreId);
     return res.status(200).send(data);
+
   } catch (error: any) {
     return res.status(500).send(error.message);
   }

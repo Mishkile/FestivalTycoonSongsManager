@@ -2,11 +2,13 @@ import { useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { addSong } from "../Services/songsService"
 import "../../public/Draggingstyle.css"
-
+import { useSelector } from "react-redux"
 
 
 const AddSong = () => {
 
+    const documentsPath = useSelector((state: any) => state.documentsPath)
+    
     const [isDragging, setIsDragging] = useState("")
 
 
@@ -31,15 +33,20 @@ const AddSong = () => {
     const handleSubmit = async (e: any) => {
         e.preventDefault()
         console.log(body)
-
-        if (Object.keys(body).length !== 5) {
+        try {
+              if (Object.keys(body).length !== 5 && Object.keys(body).length !== 6  ) {
             alert("Please fill all fields")
             return
         }
-
-        await addSong(body)
+        console.log()
+        await addSong({...body, documentPath: documentsPath})
 
         navigate("/")
+        }catch(e){
+            console.log(e)
+        }
+
+      
 
     }
 
@@ -53,8 +60,8 @@ const AddSong = () => {
                     
                    return isDragging === "" ? setIsDragging("dragging-style") : null
                 }} type="file" style={{ border: "2px solid darkred", height: "150px" }} onChange={(e: any) => {
-                    console.log(e.target.files[0].path)
-                    setBody({ ...body, documentPath: e.target.files[0].path })
+                 
+                    setBody({ ...body , songFilePath: e.target.files[0].path })
 
                 }} /> <br />
 

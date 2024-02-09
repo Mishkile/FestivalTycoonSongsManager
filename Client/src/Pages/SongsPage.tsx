@@ -22,6 +22,7 @@ import { deleteSong } from '../Services/songsService';
 import "../../public/Iconstyle.css"
 
 import CustomModal from '../Components/CustomModal'
+import SongsTable from '../Components/SongsTable';
 
 
 const SongsPage = () => {
@@ -78,66 +79,7 @@ const SongsPage = () => {
         public length: number,
         public text: string */}
             <div >
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 1600, minHeight: 200 }} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>ID</TableCell>
-                                <TableCell align="right">Band</TableCell>
-                                <TableCell align="right">Song Name</TableCell>
-                                <TableCell align="right">Length</TableCell>
-                                <TableCell align="right">Add Length File</TableCell>
-                                <TableCell align="right">Remove</TableCell>
-
-
-
-
-
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {
-                                rows.map((row: any) => {
-
-                                    return <TableRow
-
-                                        key={row.songId}
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        hover={true}
-
-                                    >
-
-                                        {modalOpen ? <CustomModal confirmRemove={() => handleRemove(row.songId)} closeWindow={() => setModalOpen(false)} /> : null}
-                                        <TableCell style={{ fontSize: "large" }} component="th" scope="row">
-                                            {row.songId}
-                                        </TableCell>
-                                        <TableCell style={{ fontSize: "large" }} align="right" >{row.bandName}</TableCell>
-                                        <TableCell style={{ fontSize: "large" }} align="right">{row.songName}</TableCell>
-                                        <TableCell style={{ fontSize: "large" }} align="right">{row.songLength}</TableCell>
-                                        {row.songLength.includes('/') && !row.songLength.includes("NA") ? (
-                                            <TableCell align="right">Maximum Lengths</TableCell>
-                                        ) : (
-                                            <TableCell align="right">
-                                                <button onClick={() => navigate(`/song/${row.songId}`)}>Add Length</button>
-                                            </TableCell>
-                                        )}
-                                        <TableCell align="right">
-                                            {isDeleteHover && songHover === row.songId ? <DeleteForeverIcon className='delete-forever-icon' fontSize={'large'} onMouseLeave={() => setIsDeleteHover(false)} onClick={() => setModalOpen((prev) => true)} /> : <DeleteIcon fontSize={'large'} onMouseOver={() => {
-                                                setSongHover(row.songId)
-                                                setIsDeleteHover(true)
-                                            }} />
-
-                                            }
-                                        </TableCell>
-
-
-
-                                    </TableRow>
-                                })
-                            }
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+               <SongsTable handleRemove={handleRemove} rows={rows} />
 
 
 

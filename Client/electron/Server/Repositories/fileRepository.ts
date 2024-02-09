@@ -94,21 +94,20 @@ async function getSongsWithId(documentPath: any) {
 
 
 
-async function renameAndAddSongEntry(documentPath: string, genreId: string, length: any, bandName: string, songName: string) {
-    const directoryPath = path.dirname(documentPath);
+async function renameAndAddSongEntry(documentsPath : any, genreId : any, length : any, bandName : any, songName : any, songFilePath : any) {
+    // Ensure the documentsPath is formatted correctly
+    documentsPath = documentsPath.replace(/\\+/g, '\\\\');
 
-    const songDataPath = path.join(directoryPath, 'songData.txt');
+    const songDataPath = path.join(documentsPath, 'songData.txt');
 
-
-
-    const songData: any = await getFileData(directoryPath)
+    const songData : any = await getFileData(documentsPath);
 
     // Generate a new unique song ID
     let songId;
     for (let id = 1; id <= 300; id++) {
         let formattedSongId = id.toString().padStart(3, '0');
         let potentialId = `u_${genreId}_${formattedSongId}_${length}`;
-        let idExists = songData.some((song: any) => song.songId.startsWith(`u_${genreId}_${formattedSongId}_`));
+        let idExists = songData.some((song:any) => song.songId.startsWith(`u_${genreId}_${formattedSongId}_`));
 
         if (!idExists) {
             songId = potentialId;
@@ -120,34 +119,36 @@ async function renameAndAddSongEntry(documentPath: string, genreId: string, leng
         throw new Error('Unable to generate a unique song ID. All IDs are taken.');
     }
 
-    // Rename the file
+    // Rename the song file
     const newFileName = `${songId}.wav`;
-    const newFilePath = path.join(directoryPath, newFileName);
+    const newFilePath = path.join(documentsPath, newFileName);
     console.log(newFilePath)
-    await fse.move(documentPath, newFilePath);
-
+    await fse.move(songFilePath, newFilePath);
 
     // Construct the new entry with the songId as the key
-    const newEntry: any = {};
+    const newEntry : any = {};
     newEntry[songId] = {
-        bandName: bandName, // Replace with actual data if available
-        songName: songName // Remove songId and songLength from here
+        bandName: bandName,
+        songName: songName
     };
 
     let currentSongData = await fs2.readFile(songDataPath, 'utf8');
     if (currentSongData && !currentSongData.endsWith('\n')) {
-        currentSongData += '\n'; // Ensure there's a newline at the end of the file content
+        currentSongData += '\n';
     }
 
     // Convert the new entry to a string that looks like a JSON object line
     const newEntryString = `${songId}: ${JSON.stringify(newEntry[songId])}\n`;
 
     // Write the updated content back to songData.txt
-    await fs2.writeFile(songDataPath, currentSongData + newEntryString); // Use writeFile with the updated content
+    await fs2.writeFile(songDataPath, currentSongData + newEntryString);
 
-    console.log(`File renamed to ${newFileName} and entry added to songData.txt`);
-    return `File renamed to ${newFileName} and entry added to songData.txt`
+    console.log(`File renamed to ${newFileName} and moved to the specified directory. Entry added to songData.txt`);
+    return `File renamed to ${newFileName} and moved to the specified directory. Entry added to songData.txt`
 }
+
+
+
 
 
 

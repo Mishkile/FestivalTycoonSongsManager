@@ -63125,10 +63125,10 @@ async function getSongsWithId(documentPath) {
     return { songId, songs: groupedSongs[songId] };
   });
 }
-async function renameAndAddSongEntry(documentPath, genreId, length, bandName, songName) {
-  const directoryPath = require$$1$2.dirname(documentPath);
-  const songDataPath = require$$1$2.join(directoryPath, "songData.txt");
-  const songData = await getFileData(directoryPath);
+async function renameAndAddSongEntry(documentsPath, genreId, length, bandName, songName, songFilePath) {
+  documentsPath = documentsPath.replace(/\\+/g, "\\\\");
+  const songDataPath = require$$1$2.join(documentsPath, "songData.txt");
+  const songData = await getFileData(documentsPath);
   let songId;
   for (let id = 1; id <= 300; id++) {
     let formattedSongId = id.toString().padStart(3, "0");
@@ -63143,15 +63143,13 @@ async function renameAndAddSongEntry(documentPath, genreId, length, bandName, so
     throw new Error("Unable to generate a unique song ID. All IDs are taken.");
   }
   const newFileName = `${songId}.wav`;
-  const newFilePath = require$$1$2.join(directoryPath, newFileName);
+  const newFilePath = require$$1$2.join(documentsPath, newFileName);
   console.log(newFilePath);
-  await fse.move(documentPath, newFilePath);
+  await fse.move(songFilePath, newFilePath);
   const newEntry = {};
   newEntry[songId] = {
     bandName,
-    // Replace with actual data if available
     songName
-    // Remove songId and songLength from here
   };
   let currentSongData = await fs2.readFile(songDataPath, "utf8");
   if (currentSongData && !currentSongData.endsWith("\n")) {
@@ -63160,8 +63158,8 @@ async function renameAndAddSongEntry(documentPath, genreId, length, bandName, so
   const newEntryString = `${songId}: ${JSON.stringify(newEntry[songId])}
 `;
   await fs2.writeFile(songDataPath, currentSongData + newEntryString);
-  console.log(`File renamed to ${newFileName} and entry added to songData.txt`);
-  return `File renamed to ${newFileName} and entry added to songData.txt`;
+  console.log(`File renamed to ${newFileName} and moved to the specified directory. Entry added to songData.txt`);
+  return `File renamed to ${newFileName} and moved to the specified directory. Entry added to songData.txt`;
 }
 async function addSongLength(existingSongId, documentPath, songLength, genreId) {
   const directoryPath = require$$1$2.dirname(documentPath);
@@ -63240,23 +63238,19 @@ server.post("/api/songsWithIds", async (req2, res2) => {
   }
 });
 server.post("/api/add", async (req2, res2) => {
-  const documentPath = req2.body.documentPath;
-  const genreId = req2.body.genreId;
-  const length = req2.body.length;
-  const bandName = req2.body.bandName;
-  const songName = req2.body.songName;
+  const documentsPath = req2.body.documentPath;
+  const { genreId, length, bandName, songName, songFilePath } = req2.body;
+  console.log(documentsPath);
   try {
-    const data = await renameAndAddSongEntry(documentPath, genreId, length, bandName, songName);
+    const data = await renameAndAddSongEntry(documentsPath, genreId, length, bandName, songName, songFilePath ? songFilePath : null);
     return res2.status(200).send(data);
   } catch (error2) {
+    console.log(error2.message);
     return res2.status(500).send(error2.message);
   }
 });
 server.post("/api/addlength", async (req2, res2) => {
-  const documentPath = req2.body.documentPath;
-  const existingSongId = req2.body.existingSongId;
-  const songLength = req2.body.songLength;
-  const genreId = req2.body.genreId;
+  const { documentPath, existingSongId, songLength, genreId } = req2.body;
   console.log(documentPath, existingSongId, songLength);
   try {
     const data = await addSongLength(existingSongId, documentPath, songLength, genreId);
