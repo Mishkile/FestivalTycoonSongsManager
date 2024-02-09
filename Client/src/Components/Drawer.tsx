@@ -52,7 +52,7 @@ export default function Drawer() {
 
   const list = (anchor: string) => (
     <Box
-      sx={{ width: "100%" }}
+      sx={{ width: "100%", backgroundColor: "#343434" }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
@@ -62,7 +62,7 @@ export default function Drawer() {
         {['Home', "Add Song"].map((text, index) => (
           <ListItem key={text} disablePadding >
 
-            <button className={'drawer-item'} style={{ width: "100%"}} onClick={() => handleDrawerPick(text)}>{text}</button>
+            <button className={'drawer-item'}  onClick={() => handleDrawerPick(text)}>{text}</button>
 
           </ListItem>
         ))}

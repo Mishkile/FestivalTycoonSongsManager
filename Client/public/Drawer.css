@@ -12,13 +12,18 @@
     display: block;
     font-size: 1.2em;
     font-weight: 500;
-    transition: 0.3s;
+    transition: 350ms;
     background-color: rgba(0,0,0,0.7);
+    margin: auto;
+    width: 100%
 
 }
 
 .drawer-item:hover {
-   background-color: rgba(0, 0, 0, 0.751);
+   background-color: #63356b;
    font-size: 1.4em;
+   width: 50%;
+   border-radius: 50px;
+   border: 1px solid #353935;
 
 }
