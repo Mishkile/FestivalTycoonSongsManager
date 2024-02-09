@@ -1,15 +1,11 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import Button from '@mui/material/Button';
+
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+
 import MenuSharpIcon from '@mui/icons-material/MenuSharp';
 import "../../public/Drawer.css"
 import { useNavigate } from 'react-router-dom';
@@ -56,16 +52,17 @@ export default function Drawer() {
 
   const list = (anchor: string) => (
     <Box
-      sx={{ width: 250 }}
+      sx={{ width: "100%" }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
+     
     >
-      <List>
+      <List style={{ display: "flex", flexDirection: "column", gap: 15 }} >
         {['Home', "Add Song"].map((text, index) => (
-          <ListItem key={text} disablePadding>
+          <ListItem key={text} disablePadding >
 
-            <button onClick={() => handleDrawerPick(text)}>{text}</button>
+            <button className={'drawer-item'} style={{ width: "100%"}} onClick={() => handleDrawerPick(text)}>{text}</button>
 
           </ListItem>
         ))}
@@ -79,12 +76,13 @@ export default function Drawer() {
     <div>
       {(['top'] as const).map((anchor: string) => (
         <React.Fragment key={anchor}>
-          <MenuSharpIcon fontSize={'large'} className='hamburger' onClick={toggleDrawer(anchor, true)} />
+          <MenuSharpIcon style={{scale: "3"}} fontSize={'inherit'} className='hamburger' onClick={toggleDrawer(anchor, true)} />
           <SwipeableDrawer
             anchor={anchor as 'left' | 'top' | 'right' | 'bottom'}
             open={state[anchor as keyof typeof state]}
             onClose={toggleDrawer(anchor, false)}
             onOpen={toggleDrawer(anchor, true)}
+
           >
             {list(anchor)}
           </SwipeableDrawer>

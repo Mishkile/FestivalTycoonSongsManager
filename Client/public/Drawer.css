@@ -2,3 +2,23 @@
     cursor: pointer;
     background-color: rgba(255, 255, 255, 0.381);
 }
+
+
+.drawer-item {
+    padding: 10px;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    display: block;
+    font-size: 1.2em;
+    font-weight: 500;
+    transition: 0.3s;
+    background-color: rgba(0,0,0,0.7);
+
+}
+
+.drawer-item:hover {
+   background-color: rgba(0, 0, 0, 0.751);
+   font-size: 1.4em;
+
+}

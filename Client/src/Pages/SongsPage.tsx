@@ -26,17 +26,13 @@ import SongsTable from '../Components/SongsTable';
 
 
 const SongsPage = () => {
-    // Reminder to self: seperate the table into a different component
 
 
-    const navigate = useNavigate()
+
     const dispatch = useDispatch()
     const [rows, setRows] = useState([])
     // // u_[genre ID]_[song ID]_[length]-[text] - for future reference
-    const [isDeleteHover, setIsDeleteHover] = useState(false)
-    const [songHover, setSongHover] = useState("")
 
-    const [modalOpen, setModalOpen] = useState(false)
 
     const checkLength = (length: any) => {
 
@@ -68,18 +64,19 @@ const SongsPage = () => {
         alert(status)
         fetchData()
     }
+
+
+
+
     useEffect(() => {
         fetchData()
     }, [])
     return (
         <div >
 
-            {/* public id: number,
-        public genre: number,
-        public length: number,
-        public text: string */}
+            
             <div >
-               <SongsTable handleRemove={handleRemove} rows={rows} />
+                <SongsTable handleRemove={handleRemove} rows={rows} />
 
 
 

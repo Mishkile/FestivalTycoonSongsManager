@@ -51,7 +51,7 @@ const AddSong = () => {
     }
 
     return (
-        <div style={{ width: "100%" }} >
+        <div style={{ width: "100%"}} >
 
 
             <form style={{  border: "2px solid black", display: "flex", flexDirection: "column", alignItems: "center" }} onSubmit={e => handleSubmit(e)}>
