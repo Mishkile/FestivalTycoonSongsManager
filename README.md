@@ -7,7 +7,8 @@ In order to build and run:
 Enter the Cilent Folder.
 
 -npm install
-
+- npm run dev
+|| 
 -npm run build
 
 C:\Users\YOUR USER\...\FestivalTycoonSongsManager\Client\release\0.0.0\win-unpacked
