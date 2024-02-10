@@ -21,7 +21,7 @@ const SongsPage = () => {
 
 
     const dispatch = useDispatch()
-    const [rows, setRows] = useState([])
+    const [rows, setRows] = useState<any[]>([])
     // // u_[genre ID]_[song ID]_[length]-[text] - for future reference
 
 
@@ -45,7 +45,12 @@ const SongsPage = () => {
         const songs = await getAllSongs(documentPath)
         const data = songs.map((song: any) => createData(song.songs[0].bandName, song.songs[0].songName, song.songId, `${checkLength(song.songs[0]?.songLength)}/${checkLength(song.songs[1]?.songLength)}/${checkLength(song.songs[2]?.songLength)}`))
         setRows(data)
-        dispatch({ type: 'SET_SONGS', payload: songs })
+        dispatch({ type: 'SET_SONGS', payload: songs, extra: data })
+    }
+
+    const createAndSetData = (songs: any[]) => {
+        const data : any[] = songs.map((song: any) => createData(song.songs[0].bandName, song.songs[0].songName, song.songId, `${checkLength(song.songs[0]?.songLength)}/${checkLength(song.songs[1]?.songLength)}/${checkLength(song.songs[2]?.songLength)}`))
+        setRows(data)
     }
 
 
@@ -67,8 +72,8 @@ const SongsPage = () => {
 
 
             <div >
-                
-                <SongsTable setRows={setRows} handleRemove={handleRemove} rows={rows} />
+
+                <SongsTable createData={createAndSetData} setRows={setRows} handleRemove={handleRemove} rows={rows} />
 
 
 

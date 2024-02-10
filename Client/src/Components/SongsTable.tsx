@@ -15,8 +15,10 @@ import CustomModal from './CustomModal';
 import { useNavigate } from 'react-router-dom';
 import Search from './Search';
 import CustomSelect from './CustomSelect';
-const SongsTable = ({ setRows, rows, handleRemove }: { setRows: Function, rows: any[], handleRemove: Function }) => {
+import { useSelector } from 'react-redux';
+const SongsTable = ({ createData, setRows, rows, handleRemove }: { createData: Function, setRows: Function, rows: any[], handleRemove: Function }) => {
     const navigate = useNavigate()
+    const songsCopy = useSelector((state: any) => state.songsCopy)
     const [isDeleteHover, setIsDeleteHover] = React.useState(false)
     const [songHover, setSongHover] = React.useState("")
     const [modalOpen, setModalOpen] = React.useState(false)
@@ -25,6 +27,14 @@ const SongsTable = ({ setRows, rows, handleRemove }: { setRows: Function, rows: 
         handleRemove(id)
     }
 
+
+    const search = (input: string) => {
+        // const namesCopyLowerCased = rows.map((row: any) => row.bandName.toLowerCase())
+        const finalRows: any = songsCopy.filter((row: any) => row.bandName.toLowerCase().includes(input.toLowerCase()) || row.songName.toLowerCase().includes(input.toLowerCase()) || row.songId.toLowerCase().includes(input.toLowerCase()) || row.songLength.toLowerCase().includes(input.toLowerCase()))
+        console.log(finalRows)
+        setRows(finalRows)
+        
+    }
 
 
     const sortRows = (category: string) => {
@@ -50,7 +60,7 @@ const SongsTable = ({ setRows, rows, handleRemove }: { setRows: Function, rows: 
     return (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
 
-            <search style={{ display: "flex", justifyContent: "space-around", gap: 15, width: "50%" }}>
+            <section style={{ display: "flex", justifyContent: "space-around", gap: 15, width: "50%" }}>
 
                 <div style={{ width: "20%" }}>
                     <CustomSelect returnCategory={(data: string) => sortRows(data)} /> <br />
@@ -58,10 +68,10 @@ const SongsTable = ({ setRows, rows, handleRemove }: { setRows: Function, rows: 
                 </div>
 
                 <div style={{ borderRadius: "30px", height: "5em", backgroundColor: "rgba(255,255,255,0.04)", display: "flex", alignItems: "center" }}>
-                    <Search data={rows} />
+                    <Search setInput={(data: string) => search(data)} />
                 </div>
 
-            </search>
+            </section>
 
 
             <br />
@@ -91,8 +101,8 @@ const SongsTable = ({ setRows, rows, handleRemove }: { setRows: Function, rows: 
                                     return <TableRow
 
                                         key={row.songId}
-                                        
-                                        sx={{  '&:last-child td, &:last-child th': { border: 0 } }}
+
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         hover={true}
 
                                     >
@@ -107,8 +117,8 @@ const SongsTable = ({ setRows, rows, handleRemove }: { setRows: Function, rows: 
                                         {row.songLength.includes('/') && !row.songLength.includes("NA") ? (
                                             <TableCell sx={{ color: "white", backgroundColor: "gray" }} align="right">Maximum Lengths</TableCell>
                                         ) : (
-                                            <TableCell align="right" sx={{backgroundColor: "gray"}}>
-                                            
+                                            <TableCell align="right" sx={{ backgroundColor: "gray" }}>
+
                                                 <button onClick={() => navigate(`/song/${row.songId}`)}>Add Length</button>
                                             </TableCell>
                                         )}

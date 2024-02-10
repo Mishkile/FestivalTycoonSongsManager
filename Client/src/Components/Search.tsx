@@ -4,7 +4,7 @@ import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
 import { useSelector } from 'react-redux';
 
-export default function Search({ data }: { data: any[] }) {
+export default function Search({ setInput }: { setInput: Function }) {
     const bandNames = useSelector((state: any) => {
         const songs = state.songs.map((song: any) => song.songs)
 
@@ -18,32 +18,22 @@ export default function Search({ data }: { data: any[] }) {
     return (
         <Stack spacing={2} sx={{ width: 450, display: "flex", alignItems: "center" }}>
 
-            <Autocomplete
-                freeSolo
-                sx={{
-                    backgroundColor: "rgba(255,255,255,0.55)",
-                    width: "80%",
-                    borderRadius: "20px"
 
+
+
+            <TextField
+                onChange={(e) => setInput(e.target.value)}
+
+                color='warning'
+                sx={{ backgroundColor: "lightgray", borderRadius: "30px", width: "80%" }}
+                label="Search input"
+                InputProps={{
+
+                    type: 'search',
                 }}
-
-                disableClearable
-                options={bandNames.map((option: string) => {
-                  
-                    return option
-                })}
-                renderInput={(params) => (
-                    <TextField
-                        color='warning'
-                        {...params}
-                        label="Search input"
-                        InputProps={{
-                            ...params.InputProps,
-                            type: 'search',
-                        }}
-                    />
-                )}
             />
+
+
         </Stack>
     );
 }

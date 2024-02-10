@@ -1,7 +1,8 @@
 const initialState = {
     isDocuments: false,
     documentsPath: '',
-    songs: []
+    songs: [],
+    songsCopy: []
 }
 // Remove the import statement for Action
 
@@ -15,7 +16,8 @@ export default function appReducer(state = initialState, action : any) {
         case 'SET_SONGS':
             return {
                 ...state,
-                songs: action.payload
+                songs: action.payload,
+                songsCopy: action.extra
             }
         case 'SET_DOCUMENTS_PATH':
             return {
