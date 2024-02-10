@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import Search from './Search';
 import CustomSelect from './CustomSelect';
 import { useSelector } from 'react-redux';
+import "../../public/TableStyle.css"
 const SongsTable = ({ createData, setRows, rows, handleRemove }: { createData: Function, setRows: Function, rows: any[], handleRemove: Function }) => {
     const navigate = useNavigate()
     const songsCopy = useSelector((state: any) => state.songsCopy)
@@ -33,7 +34,7 @@ const SongsTable = ({ createData, setRows, rows, handleRemove }: { createData: F
         const finalRows: any = songsCopy.filter((row: any) => row.bandName.toLowerCase().includes(input.toLowerCase()) || row.songName.toLowerCase().includes(input.toLowerCase()) || row.songId.toLowerCase().includes(input.toLowerCase()) || row.songLength.toLowerCase().includes(input.toLowerCase()))
         console.log(finalRows)
         setRows(finalRows)
-        
+
     }
 
 
@@ -59,7 +60,7 @@ const SongsTable = ({ createData, setRows, rows, handleRemove }: { createData: F
 
     return (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-
+            <br /> <br />
             <section style={{ display: "flex", justifyContent: "space-around", gap: 15, width: "50%" }}>
 
                 <div style={{ width: "20%" }}>
@@ -81,12 +82,12 @@ const SongsTable = ({ createData, setRows, rows, handleRemove }: { createData: F
                     <Table sx={{ minWidth: 1600, minHeight: 200, backgroundColor: "#949494" }} aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>ID</TableCell>
-                                <TableCell align="right">Band</TableCell>
-                                <TableCell align="right">Song Name</TableCell>
-                                <TableCell align="right">Length</TableCell>
-                                <TableCell align="right">Add Length File</TableCell>
-                                <TableCell align="right">Remove</TableCell>
+                                <TableCell className='header-style' >ID</TableCell>
+                                <TableCell className='header-style' align="right">Band</TableCell>
+                                <TableCell className='header-style' align="right">Song Name</TableCell>
+                                <TableCell className='header-style' align="right">Length</TableCell>
+                                <TableCell className='header-style' align="right">Add Length File</TableCell>
+                                <TableCell className='header-style' align="right">Remove</TableCell>
 
 
 
@@ -107,22 +108,22 @@ const SongsTable = ({ createData, setRows, rows, handleRemove }: { createData: F
 
                                     >
 
-                                        <TableCell style={{ fontSize: "large", backgroundColor: "gray", color: "darkgray", fontFamily: 'cursive' }} component="th" scope="row">
+                                        <TableCell className='cell-style' style={{ fontSize: "large", backgroundColor: "gray" }} component="th" scope="row">
                                             {row.songId}
 
                                         </TableCell>
-                                        <TableCell style={{ fontSize: "large", color: "white" }} align="right" >{row.bandName}</TableCell>
-                                        <TableCell style={{ fontSize: "large", color: "white", backgroundColor: "gray" }} align="right">{row.songName}</TableCell>
-                                        <TableCell style={{ fontSize: "large", color: "white" }} align="right">{row.songLength}</TableCell>
+                                        <TableCell className='cell-style' style={{ fontSize: "large", color: "white" }} align="right" >{row.bandName}</TableCell>
+                                        <TableCell className='cell-style' style={{ fontSize: "large", color: "white", backgroundColor: "gray" }} align="right">{row.songName}</TableCell>
+                                        <TableCell className='cell-style' style={{ fontSize: "large", color: "white" }} align="right">{row.songLength}</TableCell>
                                         {row.songLength.includes('/') && !row.songLength.includes("NA") ? (
-                                            <TableCell sx={{ color: "white", backgroundColor: "gray" }} align="right">Maximum Lengths</TableCell>
+                                            <TableCell className='cell-style' sx={{ color: "darkred", backgroundColor: "gray", fontSize: "large" }} align="right">Maximum Lengths</TableCell>
                                         ) : (
-                                            <TableCell align="right" sx={{ backgroundColor: "gray" }}>
+                                            <TableCell className='cell-style' align="right" sx={{ backgroundColor: "gray" }}>
 
                                                 <button onClick={() => navigate(`/song/${row.songId}`)}>Add Length</button>
                                             </TableCell>
                                         )}
-                                        <TableCell align="right">
+                                        <TableCell className='cell-style' align="right">
 
                                             {isDeleteHover && songHover === row.songId ? <DeleteForeverIcon className='delete-forever-icon' fontSize={'large'} onMouseLeave={() => setIsDeleteHover(false)} onClick={() => setModalOpen((prev) => true)} /> : <DeleteIcon fontSize={'large'} onMouseOver={() => {
                                                 setSongHover(row.songId)
