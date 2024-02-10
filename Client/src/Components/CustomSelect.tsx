@@ -14,7 +14,7 @@ export default function CustomSelect({ returnCategory }: { returnCategory: Funct
     };
 
     return (
-        <Box sx={{ maxWidth: 120, backgroundColor: "white" }}>
+        <Box sx={{ maxWidth: 120, backgroundColor: "gray" }}>
             <FormControl fullWidth>
                 <InputLabel sx={{ color: "black" }} id="demo-simple-select-label">Sort</InputLabel>
                 <Select

@@ -57,23 +57,6 @@ const SongsPage = () => {
     }
 
 
-    const sortRows = (category: string) => {
-        const rowsCopy = [...rows]
-
-        switch (category) {
-            case 'Band':
-                const sortedArray = rowsCopy.sort((a: any, b: any) => a.bandName.localeCompare(b.bandName))
-                setRows(sortedArray)
-                break;
-
-            case 'ID':
-                const sortedArray2 = rowsCopy.sort((a: any, b: any) => a.songId.localeCompare(b.songId))
-                setRows(sortedArray2)
-                break;
-        }
-
-
-    }
 
 
     useEffect(() => {
@@ -84,8 +67,8 @@ const SongsPage = () => {
 
 
             <div >
-                <CustomSelect returnCategory={(data: string) => sortRows(data)} /> <br />
-                <SongsTable handleRemove={handleRemove} rows={rows} />
+                
+                <SongsTable setRows={setRows} handleRemove={handleRemove} rows={rows} />
 
 
 
